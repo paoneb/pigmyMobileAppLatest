@@ -17,10 +17,11 @@ public class TransactionRoute  extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         onException(Exception.class)
+                .handled(true)
                 .log(LoggingLevel.ERROR, "An error occurred while transaction route - ${exception.message}")
                 .logStackTrace(true)
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(500))
-                .setBody(simple("${exception.message}"));
+                .setBody(simple("{\"error\":\"${exception.message}\"}"));
 
         from("direct:addTransaction")
                 .routeId("addTransactionRouteId")
@@ -36,6 +37,11 @@ public class TransactionRoute  extends RouteBuilder {
                 .routeId("deleteTransactionRouteId")
                 .log(LoggingLevel.INFO,"delete User request: ${body}")
                 .bean("transactionService","deleteTransaction");
+
+        from("direct:fetchCustomers")
+                .routeId("fetchCustomersRouteId")
+                .log(LoggingLevel.INFO,"fetch User request: ${body}")
+                .bean("addUserService","fetchCustomers");
 
 
     }

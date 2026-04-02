@@ -2,6 +2,7 @@ package com.pigmyMobileApp.route;
 
 import com.pigmyMobileApp.model.AgentLoginRequest;
 import com.pigmyMobileApp.model.TransactionRequest;
+import com.pigmyMobileApp.model.UserData;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.model.rest.RestParamType;
@@ -18,6 +19,9 @@ public class PigmyMobileAppRoute extends RouteBuilder {
 
     @Value("${transaction.resource.path}")
     private String transactionPath;
+
+    @Value("${user.resource.path}")
+    private String userPath;
 
     @Override
     public void configure() throws Exception {
@@ -49,7 +53,14 @@ public class PigmyMobileAppRoute extends RouteBuilder {
                 .delete()
                 .param().name("transactionId").type(RestParamType.query).dataType("Long").required(true).endParam()
                 .description("delete transaction details based on agentCode")
-                .to("direct:deleteTransaction");;
+                .to("direct:deleteTransaction");
+
+        rest(userPath)
+                .get()
+                .param().name("agentCode").type(RestParamType.query).dataType("Integer").required(false).endParam()
+                .param().name("bankCode").type(RestParamType.query).dataType("String").required(false).endParam()
+                .type(UserData.class)
+                .to("direct:fetchCustomers");
 
 
     }
