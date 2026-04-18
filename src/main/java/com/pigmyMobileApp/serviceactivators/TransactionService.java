@@ -4,6 +4,7 @@ package com.pigmyMobileApp.serviceactivators;
 import com.pigmyMobileApp.model.FetchTransactionResponse;
 import com.pigmyMobileApp.model.Transaction;
 import com.pigmyMobileApp.model.TransactionRequest;
+import com.pigmyMobileApp.repository.SchemeMappingRepo;
 import com.pigmyMobileApp.repository.TransactionRepo;
 import org.apache.camel.Body;
 import org.apache.camel.Exchange;
@@ -25,6 +26,9 @@ public class TransactionService {
     @Autowired
     private TransactionRepo transactionRepo;
 
+    @Autowired
+    private SchemeMappingRepo schemeMappingRepo;
+
     public ResponseEntity<?> addTransaction(@Body  TransactionRequest transactionRequest, final Exchange e) {
 
         Transaction transactionToDB = new Transaction();
@@ -37,7 +41,7 @@ public class TransactionService {
         transactionToDB.setCollectedDate(LocalDate.now());
         transactionToDB.setCollectiontype(transactionRequest.getCollectiontype());
         transactionToDB.setStatus("C");
-        transactionToDB.setSchemeId(transactionRequest.getSchemeId());
+        transactionToDB.setSchemeId(schemeMappingRepo.findBySchemeId(transactionRequest.getSchemename(),transactionRequest.getBankCode()));
         transactionToDB.setSchemename(transactionRequest.getSchemename());
         transactionToDB.setUserId(transactionRequest.getUserId());
 
