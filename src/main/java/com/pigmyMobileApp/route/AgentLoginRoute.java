@@ -28,10 +28,11 @@ public class AgentLoginRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         onException(Exception.class)
+                .handled(true)
                 .log(LoggingLevel.ERROR, "An error occurred while logging - ${exception.message}")
                 .logStackTrace(true)
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(404))
-                .setBody(simple("${exception.message}"));
+                .setBody(simple("{\"error\":\"${exception.message}\"}"));
 
         from("direct:agentLogin")
                 .routeId(AgentLoginRoute.class.getSimpleName())
@@ -41,7 +42,7 @@ public class AgentLoginRoute extends RouteBuilder {
 
                     if (agentLoginService.validate(agentLoginRequest.getMobileNumber(),agentLoginRequest.getPassword(),exchange)) {
                         String token = jwtUtil.generateToken(agentLoginRequest.getMobileNumber());
-                        exchange.getMessage().setBody(new AgentLoginResponse(exchange.getProperty("agentName",String.class),exchange.getProperty("agentCode",Integer.class),exchange.getProperty("bankCode",String.class),token));
+                        exchange.getMessage().setBody(new AgentLoginResponse(exchange.getProperty("agentName",String.class),exchange.getProperty("agentCode",Integer.class),exchange.getProperty("bankCode",String.class),exchange.getProperty("bankName",String.class),token));
                         LOGGER.info("Agent logged in",exchange.getProperty("agentName",String.class));
                     } else {
                         exchange.getMessage().setHeader("CamelHttpResponseCode", 401);

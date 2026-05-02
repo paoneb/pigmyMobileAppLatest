@@ -39,4 +39,8 @@ public class User {
     @Column
     private String bankCode;
 
+
+    @Column
+    private String mobilenumber;
+
 }
