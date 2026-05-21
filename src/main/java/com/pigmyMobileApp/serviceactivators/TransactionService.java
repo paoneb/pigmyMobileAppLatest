@@ -44,6 +44,7 @@ public class TransactionService {
         transactionToDB.setSchemeId(schemeMappingRepo.findBySchemeId(transactionRequest.getSchemename(),transactionRequest.getBankCode()));
         transactionToDB.setSchemename(transactionRequest.getSchemename());
         transactionToDB.setUserId(transactionRequest.getUserId());
+        transactionToDB.setTransactionId(transactionRequest.getTransactionId());
 
          transactionRepo.save(transactionToDB);
 

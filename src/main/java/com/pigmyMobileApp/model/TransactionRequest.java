@@ -23,4 +23,5 @@ public class TransactionRequest {
     private long userId;
     private String customerName;
     private Integer accountNumber;
+    private String transactionId;
 }
