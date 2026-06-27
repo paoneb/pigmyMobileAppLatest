@@ -19,6 +19,7 @@ public class TransactionRequest {
     private String schemeId;
     private String collectiontype;
     private Integer agentCode;
+    private String agentName;
     private String bankCode;
     private long userId;
     private String customerName;

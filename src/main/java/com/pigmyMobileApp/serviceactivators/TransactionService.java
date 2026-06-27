@@ -35,12 +35,13 @@ public class TransactionService {
 
         transactionToDB.setBankCode(transactionRequest.getBankCode());
         transactionToDB.setAgentCode(transactionRequest.getAgentCode());
+        transactionToDB.setAgentname(transactionRequest.getAgentName());
         transactionToDB.setCustomerName(transactionRequest.getCustomerName());
         transactionToDB.setAccountNumber(transactionRequest.getAccountNumber());
         transactionToDB.setCollectedAmount(transactionRequest.getCollectedAmount());
         transactionToDB.setCollectedDate(LocalDate.now());
         transactionToDB.setCollectiontype(transactionRequest.getCollectiontype());
-        transactionToDB.setStatus("C");
+        transactionToDB.setStatus("Collected");
         transactionToDB.setSchemeId(schemeMappingRepo.findBySchemeId(transactionRequest.getSchemename(),transactionRequest.getBankCode()));
         transactionToDB.setSchemename(transactionRequest.getSchemename());
         transactionToDB.setUserId(transactionRequest.getUserId());

@@ -60,4 +60,7 @@ public class Transaction {
 
     @Column
     private String transactionId;
+
+    @Column
+    private String agentname;
 }
