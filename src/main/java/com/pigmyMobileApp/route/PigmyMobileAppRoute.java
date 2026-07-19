@@ -37,6 +37,8 @@ public class PigmyMobileAppRoute extends RouteBuilder {
                 .type(AgentLoginRequest.class)
                 .to("direct:agentLogin");
 
+
+
         rest(transactionPath)
                 .consumes("application/json").produces("application/json")
                 .post()
@@ -60,8 +62,12 @@ public class PigmyMobileAppRoute extends RouteBuilder {
                 .param().name("agentCode").type(RestParamType.query).dataType("Integer").required(false).endParam()
                 .param().name("bankCode").type(RestParamType.query).dataType("String").required(false).endParam()
                 .type(UserData.class)
-                .to("direct:fetchCustomers");
+                .to("direct:fetchCustomers")
 
+
+                .get("/authenticate")
+                .type(AgentLoginRequest.class)
+                .to("direct:authenticateAgent");
 
     }
 }

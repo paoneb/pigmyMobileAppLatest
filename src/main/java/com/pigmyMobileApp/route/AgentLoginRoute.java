@@ -42,13 +42,17 @@ public class AgentLoginRoute extends RouteBuilder {
 
                     if (agentLoginService.validate(agentLoginRequest.getMobileNumber(),agentLoginRequest.getPassword(),exchange)) {
                         String token = jwtUtil.generateToken(agentLoginRequest.getMobileNumber());
-                        exchange.getMessage().setBody(new AgentLoginResponse(exchange.getProperty("agentName",String.class),exchange.getProperty("agentCode",Integer.class),exchange.getProperty("bankCode",String.class),exchange.getProperty("bankName",String.class),token));
+                        exchange.getMessage().setBody(new AgentLoginResponse(exchange.getProperty("agentName",String.class),exchange.getProperty("agentCode",Integer.class),exchange.getProperty("bankCode",String.class),exchange.getProperty("bankName",String.class),exchange.getProperty("phoneNumber",String.class),token));
                         LOGGER.info("Agent logged in",exchange.getProperty("agentName",String.class));
                     } else {
                         exchange.getMessage().setHeader("CamelHttpResponseCode", 401);
                         exchange.getMessage().setBody("Invalid credentials");
                     }
                 });
+
+        from("direct:authenticateAgent")
+                .routeId("authenticateAgentRouteId")
+                .process(exchange -> exchange.getMessage().setBody("Agent Authenticated Successfully") );
 
     }
 }

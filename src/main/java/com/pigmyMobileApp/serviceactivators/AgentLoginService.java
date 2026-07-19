@@ -20,6 +20,7 @@ public class AgentLoginService {
         e.setProperty("agentCode",agentLogin.getAgentCode());
         e.setProperty("agentName",agentLogin.getname());
         e.setProperty("bankName",agentLogin.getBankName());
+        e.setProperty("phoneNumber",mobileNumber);
         return agentLogin != null && agentLogin.getPassword().equals(password) && agentLogin.getstatus().equalsIgnoreCase("active");
     }
 }

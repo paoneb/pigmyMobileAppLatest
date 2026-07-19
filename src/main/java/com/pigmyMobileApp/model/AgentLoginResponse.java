@@ -11,5 +11,7 @@ public class AgentLoginResponse {
     private Integer agentCode;
     private String bankCode;
     private String bankName;
+    private String phoneNumber;
     private String token;
+
 }
