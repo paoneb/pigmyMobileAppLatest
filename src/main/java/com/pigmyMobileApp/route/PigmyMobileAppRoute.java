@@ -35,7 +35,12 @@ public class PigmyMobileAppRoute extends RouteBuilder {
                 .consumes("application/json").produces("application/json")
                 .post()
                 .type(AgentLoginRequest.class)
-                .to("direct:agentLogin");
+                .to("direct:agentLogin")
+
+
+                .post("/refresh")
+                .description("Refresh the access token using a refresh token")
+                .to("direct:refreshToken");
 
 
 

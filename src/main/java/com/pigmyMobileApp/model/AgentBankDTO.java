@@ -1,5 +1,7 @@
 package com.pigmyMobileApp.model;
 
+import java.time.LocalDate;
+
 public class AgentBankDTO {
     private String bankName;
     private String bankCode;
@@ -7,14 +9,16 @@ public class AgentBankDTO {
     private String name;
     private String password;
     private String status;
+    private LocalDate lastDepositDate;
 
-    public AgentBankDTO(String bankName, String bankCode, Integer agentCode, String name,String password,String status) {
+    public AgentBankDTO(String bankName, String bankCode, Integer agentCode, String name,String password,String status,LocalDate lastDepositDate) {
         this.bankName = bankName;
         this.bankCode = bankCode;
         this.agentCode = agentCode;
         this.name = name;
         this.password = password;
         this.status = status;
+        this.lastDepositDate= lastDepositDate;
     }
 
     // Getters
@@ -24,6 +28,7 @@ public class AgentBankDTO {
     public String getname() { return name; }
     public String getPassword() { return password; }
     public String getstatus() { return status; }
+    public LocalDate getlastDepositDate() { return lastDepositDate; }
 
     // Setters (optional if you only need read-only DTO)
     public void setBankName(String bankName) { this.bankName = bankName; }
@@ -32,4 +37,5 @@ public class AgentBankDTO {
     public void setAgentName(String name) { this.name = name; }
     public void setPassword(String password) { this.password = password; }
     public void setstatus(String status) { this.status = status; }
+    public void setlastDepositDate(LocalDate lastDepositDate) { this.lastDepositDate = lastDepositDate; }
 }

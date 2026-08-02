@@ -2,31 +2,45 @@ package com.pigmyMobileApp.config;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
 
+import java.time.Instant;
+import java.util.Date;
 
 @Component
 public class JwtUtil {
 
-   // private static final String SECRET_KEY = "mySecretKey123"; // use env variable in prod
+    @Value("${jwt.secret}")
+    private String secretKey;
 
-   // Key secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    @Value("${jwt.expiration}")
+    private long expiration;
 
-    private static final String SECRET_KEY = "93f760869577f85a5dceb39e69d83e1998898cbe662f27bc9689a5b61e8a061b2a8329af";
-
-
-    //private static final long EXPIRATION = 1000 * 60 * 60; // 1 hour
-   private static final long EXPIRATION= 1000 * 60 * 5;
+    @Value("${jwt.refreshExpiration}")
+    private long refreshExpiration; // e.g. 7 days
 
     public String generateToken(String mobilenumber) {
         return Jwts.builder()
                 .setSubject(mobilenumber)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
+    }
+
+    public String generateRefreshToken(String mobileNumber) {
+        return Jwts.builder()
+                .setSubject(mobileNumber)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + refreshExpiration))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+    }
+
+    public Instant getRefreshTokenExpiryDate() {
+        return Instant.now().plusMillis(refreshExpiration);
     }
 
 }

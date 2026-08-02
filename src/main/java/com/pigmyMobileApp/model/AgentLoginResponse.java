@@ -12,6 +12,11 @@ public class AgentLoginResponse {
     private String bankCode;
     private String bankName;
     private String phoneNumber;
-    private String token;
+    private String lastDepositDate;
+    private long  limitAmount;
+    private int graceDays;
+    private String refreshToken;
+    private String accessToken;
+
 
 }
