@@ -40,7 +40,13 @@ public class PigmyMobileAppRoute extends RouteBuilder {
 
                 .post("/refresh")
                 .description("Refresh the access token using a refresh token")
-                .to("direct:refreshToken");
+                .to("direct:refreshToken")
+
+
+                .get("/authenticate")
+                .param().name("phoneNumber").type(RestParamType.query).dataType("String").required(true).endParam()
+                .type(AgentLoginRequest.class)
+                .to("direct:authenticateAgent");
 
 
 
@@ -57,22 +63,20 @@ public class PigmyMobileAppRoute extends RouteBuilder {
                 .param().name("bankCode").type(RestParamType.query).dataType("String").required(true).endParam()
                 .to("direct:fetchTransaction")
 
-                .delete()
-                .param().name("transactionId").type(RestParamType.query).dataType("Long").required(true).endParam()
-                .description("delete transaction details based on agentCode")
-                .to("direct:deleteTransaction");
+                .get("/fetchCollections")
+                .description("fetch transaction details based on agentCode")
+                .param().name("agentCode").type(RestParamType.query).dataType("Integer").required(true).endParam()
+                .param().name("bankCode").type(RestParamType.query).dataType("String").required(true).endParam()
+                .param().name("graceDays").type(RestParamType.query).dataType("Integer").required(true).endParam()
+                .to("direct:fetchCollections");
+
 
         rest(userPath)
                 .get()
                 .param().name("agentCode").type(RestParamType.query).dataType("Integer").required(false).endParam()
                 .param().name("bankCode").type(RestParamType.query).dataType("String").required(false).endParam()
                 .type(UserData.class)
-                .to("direct:fetchCustomers")
-
-
-                .get("/authenticate")
-                .type(AgentLoginRequest.class)
-                .to("direct:authenticateAgent");
+                .to("direct:fetchCustomers");
 
     }
 }

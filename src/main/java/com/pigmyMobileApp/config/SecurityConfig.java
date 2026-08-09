@@ -3,6 +3,7 @@ package com.pigmyMobileApp.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -29,8 +30,10 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                   .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers( "/pigmyMobile/v2/login","/pigmyMobile/v2/login/refresh")
-                        .permitAll()
+                      //  .requestMatchers( "/pigmyMobile/v2/login","/pigmyMobile/v2/login/refresh","/pigmyMobile/v2/user/authenticate")
+                        .requestMatchers(HttpMethod.GET, "/pigmyMobile/v2/login/authenticate").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/pigmyMobile/v2/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/pigmyMobile/v2/login/refresh").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

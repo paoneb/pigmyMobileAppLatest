@@ -4,6 +4,7 @@ package com.pigmyMobileApp.serviceactivators;
 import com.pigmyMobileApp.model.FetchTransactionResponse;
 import com.pigmyMobileApp.model.Transaction;
 import com.pigmyMobileApp.model.TransactionRequest;
+import com.pigmyMobileApp.model.TransactionSummaryProjection;
 import com.pigmyMobileApp.repository.SchemeMappingRepo;
 import com.pigmyMobileApp.repository.TransactionRepo;
 import org.apache.camel.Body;
@@ -76,13 +77,13 @@ public class TransactionService {
         return rs;
     }
 
-    public ResponseEntity deleteTransaction(@Header("transactionId") final long id, final Exchange e) {
-        if (!transactionRepo.existsById(id)) {
-            throw new RuntimeException("Transaction not found with id: " + id);
-        }
-        transactionRepo.deleteById(id);
-        return ResponseEntity.ok("Transaction deleted successfully");
+    public void fetchCollection(@Header("agentCode") final Integer agCode, @Header("bankCode") final String bankCode, @Header("graceDays") final Integer graceDays, final Exchange e) {
+      TransactionSummaryProjection transactionSummary = transactionRepo.findTransactionSummary(agCode, bankCode, graceDays);
 
+        e.getIn().setBody(Map.of(
+                "totalAmountCollected", transactionSummary.getTotalCollected(),
+                "totalTransactions", transactionSummary.getTransactionCount()));
 
     }
+
 }

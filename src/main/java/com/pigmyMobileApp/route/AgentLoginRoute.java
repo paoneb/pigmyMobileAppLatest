@@ -66,7 +66,7 @@ public class AgentLoginRoute extends RouteBuilder {
 
         from("direct:authenticateAgent")
                 .routeId("authenticateAgentRouteId")
-                .process(exchange -> exchange.getMessage().setBody("Agent Authenticated Successfully") );
+             .bean("agentLoginService", "authenticateAgent");
 
         from("direct:refreshToken")
                 .routeId("refreshTokenRouteId")

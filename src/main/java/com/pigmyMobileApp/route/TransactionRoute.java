@@ -33,15 +33,15 @@ public class TransactionRoute  extends RouteBuilder {
                 .log(LoggingLevel.INFO,"fetch transaction request: ${body}")
                 .bean("transactionService","fetchTransaction");
 
-        from("direct:deleteTransaction")
-                .routeId("deleteTransactionRouteId")
-                .log(LoggingLevel.INFO,"delete User request: ${body}")
-                .bean("transactionService","deleteTransaction");
-
         from("direct:fetchCustomers")
                 .routeId("fetchCustomersRouteId")
                 .log(LoggingLevel.INFO,"fetch User request: ${body}")
                 .bean("addUserService","fetchCustomers");
+
+        from("direct:fetchCollections")
+                .routeId("fetchCollectionRouteId")
+                .log(LoggingLevel.INFO,"fetch Collection request: ${body}")
+                .bean("transactionService","fetchCollection");
 
 
     }
