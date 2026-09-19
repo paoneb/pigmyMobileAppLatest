@@ -23,7 +23,7 @@ public class Transaction {
     private Long id;
 
     @Column
-    private Double collectedAmount;
+    private long collectedAmount;
 
     @Column
     private LocalDate collectedDate;
@@ -63,4 +63,7 @@ public class Transaction {
 
     @Column
     private String agentname;
+
+    @Column
+    private LocalDate agentDepositedDate;
 }

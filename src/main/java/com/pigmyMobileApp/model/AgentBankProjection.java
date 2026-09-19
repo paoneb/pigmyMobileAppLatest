@@ -5,6 +5,7 @@ import java.time.LocalDate;
 public interface AgentBankProjection {
     String getBankName();
     String getBankCode();
+    String getbankType();
     Integer getAgentCode();
     String getagentName ();
     String getPassword();
@@ -12,5 +13,6 @@ public interface AgentBankProjection {
     Long getlimitAmount();
     int getGraceDays();
     LocalDate getLastDepositDate();
+
 
 }

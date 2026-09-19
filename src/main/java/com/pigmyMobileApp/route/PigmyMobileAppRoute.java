@@ -3,6 +3,7 @@ package com.pigmyMobileApp.route;
 import com.pigmyMobileApp.model.AgentLoginRequest;
 import com.pigmyMobileApp.model.TransactionRequest;
 import com.pigmyMobileApp.model.UserData;
+import com.pigmyMobileApp.model.peocit.PeocitTransactionRequest;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.model.rest.RestParamType;
@@ -56,6 +57,14 @@ public class PigmyMobileAppRoute extends RouteBuilder {
                 .type(TransactionRequest.class)
                 .to("direct:addTransaction")
 
+                .post("/peocit")
+                .type(PeocitTransactionRequest.class)
+                .to("direct:addTransactionPeocit")
+
+                .post("/sledger")
+                .type(TransactionRequest.class)
+                .to("direct:addTransactionSledger")
+
                 .get()
                 .description("fetch transaction details based on agentCode")
                 .param().name("agentCode").type(RestParamType.query).dataType("Integer").required(true).endParam()
@@ -67,7 +76,7 @@ public class PigmyMobileAppRoute extends RouteBuilder {
                 .description("fetch transaction details based on agentCode")
                 .param().name("agentCode").type(RestParamType.query).dataType("Integer").required(true).endParam()
                 .param().name("bankCode").type(RestParamType.query).dataType("String").required(true).endParam()
-                .param().name("graceDays").type(RestParamType.query).dataType("Integer").required(true).endParam()
+                .param().name("bankType").type(RestParamType.header).dataType("String").required(true).endParam()
                 .to("direct:fetchCollections");
 
 
@@ -75,7 +84,7 @@ public class PigmyMobileAppRoute extends RouteBuilder {
                 .get()
                 .param().name("agentCode").type(RestParamType.query).dataType("Integer").required(false).endParam()
                 .param().name("bankCode").type(RestParamType.query).dataType("String").required(false).endParam()
-                .type(UserData.class)
+                .param().name("bankType").type(RestParamType.header).dataType("String").required(true).endParam()
                 .to("direct:fetchCustomers");
 
     }

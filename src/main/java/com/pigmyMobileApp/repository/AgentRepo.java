@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public interface AgentRepo extends JpaRepository<AgentLogin,Long> {
 
-    @Query(value = "SELECT ad.bank_name AS bankName, ad.bank_code AS bankCode, " +
+    @Query(value = "SELECT ad.bank_name AS bankName, ad.bank_code AS bankCode, ad.bank_type AS bankType, " +
             "a.agent_code AS agentCode, a.agent_name AS agentName, " +
             "a.password AS password, a.status AS status, " +
             "a.limit_amount AS limitAmount, a.grace_days AS graceDays, " +

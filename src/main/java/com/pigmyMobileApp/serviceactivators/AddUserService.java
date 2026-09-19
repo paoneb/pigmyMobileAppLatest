@@ -3,6 +3,8 @@ package com.pigmyMobileApp.serviceactivators;
 
 
 import com.pigmyMobileApp.model.User;
+import com.pigmyMobileApp.model.peocit.PeocitUser;
+import com.pigmyMobileApp.repository.PeocitUserRepo;
 import com.pigmyMobileApp.repository.UserRepo;
 import org.apache.camel.Body;
 import org.apache.camel.Header;
@@ -19,6 +21,9 @@ public class AddUserService {
     @Autowired
     private UserRepo userRepo;
 
+    @Autowired
+    private PeocitUserRepo peocitUserRepo;
+
 
     public List<User> fetchCustomers(@Header("agentCode") final Integer agentCode, @Header("bankCode") final String bankCode)
     {
@@ -34,5 +39,18 @@ public class AddUserService {
         }
 
 
+    }
+
+    public List<PeocitUser> fetchCustomersPeocit(@Header("agentCode") final Integer agentCode, @Header("bankCode") final String bankCode) {
+        if (agentCode != null) {
+            List<PeocitUser> users = peocitUserRepo.findUsersByAgentCode_bankCode(agentCode, bankCode);
+            if (users.isEmpty()) {
+                throw new RuntimeException("Agent not found");
+            }
+            return users;
+
+        } else {
+            return peocitUserRepo.findAll();
+        }
     }
 }

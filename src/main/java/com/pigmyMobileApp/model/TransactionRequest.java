@@ -14,7 +14,7 @@ import java.util.Date;
 @Data
 public class TransactionRequest {
 
-    private Double collectedAmount;
+    private long collectedAmount;
     private String schemename;
     private String schemeId;
     private String collectiontype;
@@ -25,4 +25,6 @@ public class TransactionRequest {
     private String customerName;
     private Integer accountNumber;
     private String transactionId;
+    private String bankType;
+    private long finalAmount;
 }

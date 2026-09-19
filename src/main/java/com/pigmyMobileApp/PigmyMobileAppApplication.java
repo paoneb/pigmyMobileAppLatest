@@ -7,8 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @ComponentScan
 public class PigmyMobileAppApplication {
-
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 		SpringApplication.run(PigmyMobileAppApplication.class, args);
 	}
 

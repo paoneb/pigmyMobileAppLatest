@@ -4,6 +4,7 @@ import com.pigmyMobileApp.config.JwtUtil;
 import com.pigmyMobileApp.model.AgentLoginRequest;
 import com.pigmyMobileApp.model.AgentLoginResponse;
 import com.pigmyMobileApp.model.RefreshToken;
+import com.pigmyMobileApp.model.peocit.SchemesDTO;
 import com.pigmyMobileApp.repository.RefreshTokenRepo;
 import com.pigmyMobileApp.serviceactivators.AgentLoginService;
 import com.pigmyMobileApp.serviceactivators.RefreshTokenService;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 
 
@@ -56,7 +58,7 @@ public class AgentLoginRoute extends RouteBuilder {
                     if (agentLoginService.validate(agentLoginRequest.getMobileNumber(),agentLoginRequest.getPassword(),exchange)) {
                         String refreshToken = refreshTokenService.generateRefreshToken(exchange);
                         String accessToken = jwtUtil.generateToken(agentLoginRequest.getMobileNumber());
-                        exchange.getMessage().setBody(new AgentLoginResponse(exchange.getProperty("agentName",String.class),exchange.getProperty("agentCode",Integer.class),exchange.getProperty("bankCode",String.class),exchange.getProperty("bankName",String.class),exchange.getProperty("phoneNumber",String.class),exchange.getProperty("lastDepositDate",String.class),exchange.getProperty("limitAmount",Long.class),exchange.getProperty("graceDays",Integer.class),refreshToken,accessToken));
+                        exchange.getMessage().setBody(new AgentLoginResponse(exchange.getProperty("agentName",String.class),exchange.getProperty("agentCode",Integer.class),exchange.getProperty("bankCode",String.class),exchange.getProperty("bankName",String.class),exchange.getProperty("phoneNumber",String.class),exchange.getProperty("lastDepositDate",String.class),exchange.getProperty("limitAmount",Long.class),exchange.getProperty("graceDays",Integer.class),refreshToken,accessToken, (List<SchemesDTO>) exchange.getProperty("schemes"),exchange.getProperty("bankType",String.class)));
                         LOGGER.info("Agent logged in",exchange.getProperty("agentName",String.class));
                     } else {
                         exchange.getMessage().setHeader("CamelHttpResponseCode", 401);

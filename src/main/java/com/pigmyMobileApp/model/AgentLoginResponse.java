@@ -1,8 +1,11 @@
 package com.pigmyMobileApp.model;
 
 
+import com.pigmyMobileApp.model.peocit.SchemesDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -17,6 +20,8 @@ public class AgentLoginResponse {
     private int graceDays;
     private String refreshToken;
     private String accessToken;
+    private List<SchemesDTO> schemes;
+    private String bankType;
 
 
 }

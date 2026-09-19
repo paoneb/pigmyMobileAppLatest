@@ -25,8 +25,18 @@ public class TransactionRoute  extends RouteBuilder {
 
         from("direct:addTransaction")
                 .routeId("addTransactionRouteId")
-                .log(LoggingLevel.INFO, "Add transaction request: ${body}")
+                .log(LoggingLevel.INFO, "Add banksoft transaction request: ${body}")
                 .bean("transactionService", "addTransaction");
+
+        from("direct:addTransactionPeocit")
+                .routeId("addTransactionPeocitRouteId")
+                .log(LoggingLevel.INFO, "Add transaction peocit request: ${body}")
+                .bean("transactionService", "addTransactionPeocit");
+
+        from("direct:addTransactionSledger")
+                .routeId("addTransactionSledgerRouteId")
+                .log(LoggingLevel.INFO, "Add transaction sledger request: ${body}");
+               // .bean("transactionService", "addTransactionSledger");
 
         from("direct:fetchTransaction")
                 .routeId("fetchTransactionRouteId")
@@ -35,12 +45,17 @@ public class TransactionRoute  extends RouteBuilder {
 
         from("direct:fetchCustomers")
                 .routeId("fetchCustomersRouteId")
+                .choice()
+                .when(header("bankType").isEqualTo("banksoft"))
                 .log(LoggingLevel.INFO,"fetch User request: ${body}")
-                .bean("addUserService","fetchCustomers");
+                .bean("addUserService","fetchCustomers")
+                .when(header("bankType").isEqualTo("peocit"))
+                .log(LoggingLevel.INFO,"fetch User request: ${body}")
+                .bean("addUserService","fetchCustomersPeocit");
 
         from("direct:fetchCollections")
                 .routeId("fetchCollectionRouteId")
-                .log(LoggingLevel.INFO,"fetch Collection request: ${body}")
+                .log(LoggingLevel.INFO,"fetch banksoft Collection request: ${body}")
                 .bean("transactionService","fetchCollection");
 
 

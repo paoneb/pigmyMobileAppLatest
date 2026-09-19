@@ -5,6 +5,7 @@ import com.pigmyMobileApp.model.AgentBankProjection;
 import com.pigmyMobileApp.model.AgentLogin;
 import com.pigmyMobileApp.model.AuthenticateMeProjection;
 import com.pigmyMobileApp.repository.AgentRepo;
+import com.pigmyMobileApp.repository.SchemeMappingRepo;
 import org.apache.camel.Exchange;
 import org.apache.camel.Header;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class AgentLoginService {
     @Autowired
     private AgentRepo agentLoginRepo;
 
+    @Autowired
+    private SchemeMappingRepo schemeMappingRepo;
+
     public boolean validate(String mobileNumber, String password, Exchange e) {
         AgentBankProjection agentLogin = agentLoginRepo.findByPhone(mobileNumber).orElseThrow(()-> new RuntimeException("Agents mobile number not found"));
         e.setProperty("bankCode",agentLogin.getBankCode());
@@ -30,6 +34,8 @@ public class AgentLoginService {
         e.setProperty("limitAmount", agentLogin.getlimitAmount());
         e.setProperty("graceDays", agentLogin.getGraceDays());
         e.setProperty("lastDepositDate", agentLogin.getLastDepositDate() != null ? agentLogin.getLastDepositDate().toString() : "No deposits yet");
+        e.setProperty("schemes", schemeMappingRepo.findByBankCode(agentLogin.getBankCode()));
+        e.setProperty("bankType", agentLogin.getbankType());
         return agentLogin != null && agentLogin.getPassword().equals(password) && agentLogin.getStatus().equalsIgnoreCase("active");
     }
 

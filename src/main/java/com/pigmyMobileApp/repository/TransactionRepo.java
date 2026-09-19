@@ -22,10 +22,9 @@ public interface TransactionRepo extends JpaRepository<Transaction,Long> {
             "WHERE t.agent_code = :agentCode " +
             "AND t.bank_code = :bankCode " +
             "AND t.status = 'Collected' " +
-            "AND t.collected_date >= CURRENT_DATE - INTERVAL :graceDays DAY",
+            "AND t.collected_date >= agent_deposited_date AND t.collected_date <= CURRENT_DATE",
             nativeQuery = true)
     TransactionSummaryProjection findTransactionSummary(@Param("agentCode") int agentCode,
-                                                        @Param("bankCode") String bankCode,
-                                                        @Param("graceDays") int graceDays);
+                                                        @Param("bankCode") String bankCode);
 
 }
