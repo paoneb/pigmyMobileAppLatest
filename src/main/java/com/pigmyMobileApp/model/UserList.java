@@ -9,7 +9,7 @@ public class UserList {
     private String customerName;
 
 
-    private Integer accountNumber;
+    private String accountNumber;
 
 
     private long currentBalance;

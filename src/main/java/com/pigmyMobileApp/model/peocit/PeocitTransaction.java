@@ -66,4 +66,7 @@ public class PeocitTransaction {
 
     @Column
     private String agentname;
+
+    @Column
+    private String vpncode;
 }

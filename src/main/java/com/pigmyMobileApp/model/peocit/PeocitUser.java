@@ -8,18 +8,11 @@ import lombok.Data;
 
 @Entity
 @Table(name = "peocit_user")
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class PeocitUser {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "peocit_user_seq")
-    @SequenceGenerator(
-            name = "peocit_user_seq",
-            sequenceName = "peocit_user_seq",
-            allocationSize = 100 // must match batch_size
-    )
     @Column(name = "user_id")
     private Long userId;
 

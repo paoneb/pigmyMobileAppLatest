@@ -19,16 +19,10 @@ public class SledgerTransaction {
     private Long id;
 
     @Column
-    private Double collectedAmount;
-
-    @Column
-    private Double finalAmount;
+    private long collectedAmount;
 
     @Column
     private LocalDate collectedDate;
-
-    @Column
-    private String schemename;
 
     @Column
     private String schemeId;
@@ -55,7 +49,7 @@ public class SledgerTransaction {
     private String customerName;
 
     @Column
-    private Integer accountNumber;
+    private String accountNumber;
 
     @Column
     private String transactionId;
@@ -65,5 +59,8 @@ public class SledgerTransaction {
 
     @Column
     private LocalDate agentDepositedDate;
+
+    @Column
+    private String branchCode;
 
 }

@@ -21,6 +21,6 @@ public class PeocitTransactionRequest {
     private String customerName;
     private String accountNumber;
     private String transactionId;
-    private String bankType;
     private long finalAmount;
+    private String vpncode;
 }

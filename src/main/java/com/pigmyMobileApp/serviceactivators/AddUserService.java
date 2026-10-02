@@ -1,36 +1,33 @@
 package com.pigmyMobileApp.serviceactivators;
 
 
-
 import com.pigmyMobileApp.model.User;
 import com.pigmyMobileApp.model.peocit.PeocitUser;
+import com.pigmyMobileApp.model.sledger.SledgerUser;
 import com.pigmyMobileApp.repository.PeocitUserRepo;
+import com.pigmyMobileApp.repository.SledgerUserRepo;
 import com.pigmyMobileApp.repository.UserRepo;
-import org.apache.camel.Body;
+import lombok.RequiredArgsConstructor;
 import org.apache.camel.Header;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component("addUserService")
+@RequiredArgsConstructor
 public class AddUserService {
 
-    @Autowired
-    private UserRepo userRepo;
 
-    @Autowired
-    private PeocitUserRepo peocitUserRepo;
+    private final UserRepo userRepo;
+    private final PeocitUserRepo peocitUserRepo;
+    private final SledgerUserRepo sledgerUserRepo;
 
 
-    public List<User> fetchCustomers(@Header("agentCode") final Integer agentCode, @Header("bankCode") final String bankCode)
-    {
+    public List<User> fetchCustomers(@Header("agentCode") final Integer agentCode, @Header("bankCode") final String bankCode) {
         if (agentCode != null) {
-            List<User> users= userRepo.findUsersByAgentCode_bankCode(agentCode,bankCode);
+            List<User> users = userRepo.findUsersByAgentCode_bankCode(agentCode, bankCode);
             if (users.isEmpty()) {
-                 throw new  RuntimeException("Agent not found");
+                throw new RuntimeException("Agent not found");
             }
             return users;
 
@@ -51,6 +48,19 @@ public class AddUserService {
 
         } else {
             return peocitUserRepo.findAll();
+        }
+    }
+
+    public List<SledgerUser> fetchCustomersSledger(@Header("agentCode") final Integer agentCode, @Header("bankCode") final String bankCode) {
+        if (agentCode != null) {
+            List<SledgerUser> users = sledgerUserRepo.findUsersByAgentCode_bankCode(agentCode, bankCode);
+            if (users.isEmpty()) {
+                throw new RuntimeException("Agent not found");
+            }
+            return users;
+
+        } else {
+            return sledgerUserRepo.findAll();
         }
     }
 }

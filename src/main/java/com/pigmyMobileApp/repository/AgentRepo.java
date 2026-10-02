@@ -23,7 +23,7 @@ public interface AgentRepo extends JpaRepository<AgentLogin,Long> {
             "   AND adp.agent_code = a.agent_code) AS lastDepositDate " +
             "FROM admin_web ad " +
             "JOIN agents a ON a.bank_code = ad.bank_code " +
-            "WHERE a.phone = :phone",
+            "WHERE a.status='Active' AND a.phone = :phone",
             nativeQuery = true)
     Optional<AgentBankProjection> findByPhone(@Param("phone") String phone);
 

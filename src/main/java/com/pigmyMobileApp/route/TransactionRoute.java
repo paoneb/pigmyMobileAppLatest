@@ -35,8 +35,8 @@ public class TransactionRoute  extends RouteBuilder {
 
         from("direct:addTransactionSledger")
                 .routeId("addTransactionSledgerRouteId")
-                .log(LoggingLevel.INFO, "Add transaction sledger request: ${body}");
-               // .bean("transactionService", "addTransactionSledger");
+                .log(LoggingLevel.INFO, "Add transaction sledger request: ${body}")
+                .bean("transactionService", "addTransactionSledger");
 
         from("direct:fetchTransaction")
                 .routeId("fetchTransactionRouteId")
@@ -51,7 +51,10 @@ public class TransactionRoute  extends RouteBuilder {
                 .bean("addUserService","fetchCustomers")
                 .when(header("bankType").isEqualTo("peocit"))
                 .log(LoggingLevel.INFO,"fetch User request: ${body}")
-                .bean("addUserService","fetchCustomersPeocit");
+                .bean("addUserService","fetchCustomersPeocit")
+                .when(header("bankType").isEqualTo("sledger"))
+                .log(LoggingLevel.INFO,"fetch User request: ${body}")
+                .bean("addUserService","fetchCustomersSledger");
 
         from("direct:fetchCollections")
                 .routeId("fetchCollectionRouteId")

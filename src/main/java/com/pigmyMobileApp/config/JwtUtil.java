@@ -18,8 +18,8 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private long expiration;
 
-    @Value("${jwt.refreshExpiration}")
-    private long refreshExpiration; // e.g. 7 days
+    @Value("#{T(Long).parseLong('${jwt.refreshExpiration}')}") // Forces robust Long parsing
+    private long refreshExpiration;
 
     public String generateToken(String mobilenumber) {
         return Jwts.builder()
@@ -30,11 +30,11 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String generateRefreshToken(String mobileNumber) {
+    public String generateRefreshToken(String mobileNumber,Instant expiryDate) {
         return Jwts.builder()
                 .setSubject(mobileNumber)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + refreshExpiration))
+                .setExpiration(Date.from(expiryDate))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }

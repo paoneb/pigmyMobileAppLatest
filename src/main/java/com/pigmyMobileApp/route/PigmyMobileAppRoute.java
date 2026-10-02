@@ -4,6 +4,7 @@ import com.pigmyMobileApp.model.AgentLoginRequest;
 import com.pigmyMobileApp.model.TransactionRequest;
 import com.pigmyMobileApp.model.UserData;
 import com.pigmyMobileApp.model.peocit.PeocitTransactionRequest;
+import com.pigmyMobileApp.model.sledger.SledgerTransactionRequest;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.model.rest.RestParamType;
@@ -62,7 +63,7 @@ public class PigmyMobileAppRoute extends RouteBuilder {
                 .to("direct:addTransactionPeocit")
 
                 .post("/sledger")
-                .type(TransactionRequest.class)
+                .type(SledgerTransactionRequest.class)
                 .to("direct:addTransactionSledger")
 
                 .get()

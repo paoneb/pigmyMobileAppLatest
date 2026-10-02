@@ -7,13 +7,11 @@ import lombok.Data;
 
 @Entity
 @Table(name = "user")
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long userId;
 
@@ -21,7 +19,7 @@ public class User {
     private String customerName;
 
     @Column(name = "account_number")
-    private Integer accountNumber;
+    private String accountNumber;
 
 
     @Column(name = "current_balance")
@@ -38,7 +36,6 @@ public class User {
 
     @Column
     private String bankCode;
-
 
     @Column
     private String mobilenumber;

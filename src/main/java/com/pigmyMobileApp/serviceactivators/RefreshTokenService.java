@@ -4,6 +4,7 @@ package com.pigmyMobileApp.serviceactivators;
 import com.pigmyMobileApp.config.JwtUtil;
 import com.pigmyMobileApp.model.RefreshToken;
 import com.pigmyMobileApp.repository.RefreshTokenRepo;
+import lombok.RequiredArgsConstructor;
 import org.apache.camel.Exchange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,14 +13,13 @@ import java.time.Instant;
 import java.util.Map;
 
 @Component("refreshTokenService")
+@RequiredArgsConstructor
 public class RefreshTokenService {
 
 
-    @Autowired
-    private RefreshTokenRepo refreshTokenRepo;
+    private final RefreshTokenRepo refreshTokenRepo;
 
-    @Autowired
-    private JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
 
     public String generateRefreshToken(final Exchange e) {
@@ -35,8 +35,9 @@ public class RefreshTokenService {
                 })
                 .orElseGet(() -> {
                     // If no refresh token exists, generate and save one
-                    String newToken = jwtUtil.generateRefreshToken(phoneNumber);
                     Instant expiryDate = jwtUtil.getRefreshTokenExpiryDate();
+                    String newToken = jwtUtil.generateRefreshToken(phoneNumber, expiryDate);
+
 
                     RefreshToken tokenEntity = new RefreshToken();
                     tokenEntity.setMobileNumber(phoneNumber);
@@ -55,7 +56,7 @@ public class RefreshTokenService {
     }
 
     public boolean validateRefreshToken(String refreshToken, String mobileNumber) {
-        RefreshToken  tokenEntity = refreshTokenRepo.findByToken(refreshToken)
+        RefreshToken tokenEntity = refreshTokenRepo.findByToken(refreshToken)
                 .orElseThrow(() -> new RuntimeException("Invalid refresh token"));
 
         // Check if the provided refresh token matches the stored one and is not expired
@@ -69,8 +70,9 @@ public class RefreshTokenService {
 
         // Generate a new refresh token
         String newAccessToken = jwtUtil.generateToken(mobileNumber);
-        String newRefreshToken = jwtUtil.generateRefreshToken(mobileNumber);
         Instant expiryDate = jwtUtil.getRefreshTokenExpiryDate();
+        String newRefreshToken = jwtUtil.generateRefreshToken(mobileNumber, expiryDate);
+
 
         // Update the existing token entity
         tokenEntity.setToken(newRefreshToken);
