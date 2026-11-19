@@ -16,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.apache.camel.Body;
 import org.apache.camel.Exchange;
 import org.apache.camel.Header;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +35,8 @@ public class TransactionService {
     private final TransactionRepo transactionRepo;
     private final PeocitTransactionRepo peocitTransactionRepo;
     private final SledgerTransactionRepo sledgerTransactionRepo;
+
+    private final Logger LOGGER = LoggerFactory.getLogger(TransactionService.class);
 
     @Transactional(rollbackFor = Exception.class)
     public ResponseEntity<?> addTransaction(@Body final TransactionRequest transactionRequest) {
@@ -53,6 +57,8 @@ public class TransactionService {
             transactionToDB.setSchemename(transactionRequest.getSchemename());
             transactionToDB.setUserId(transactionRequest.getUserId());
             transactionToDB.setTransactionId(transactionRequest.getTransactionId());
+
+            LOGGER.info("Saving transaction to banksoft database");
 
             transactionRepo.save(transactionToDB);
             return ResponseEntity.ok(
@@ -93,6 +99,8 @@ public class TransactionService {
             transactionPeocitToDB.setTransactionId(transactionRequestPeocit.getTransactionId());
             transactionPeocitToDB.setVpncode(transactionRequestPeocit.getVpncode());
 
+            LOGGER.info("Saving transaction to peocit database");
+
             peocitTransactionRepo.save(transactionPeocitToDB);
             return ResponseEntity.ok(
                     Map.of(
@@ -129,6 +137,8 @@ public class TransactionService {
             sledgertransactionToDB.setUserId(transactionRequest.getUserId());
             sledgertransactionToDB.setTransactionId(transactionRequest.getTransactionId());
             sledgertransactionToDB.setBranchCode(transactionRequest.getBranchCode());
+
+            LOGGER.info("Saving transaction to sledger database");
 
             sledgerTransactionRepo.save(sledgertransactionToDB);
             return ResponseEntity.ok(

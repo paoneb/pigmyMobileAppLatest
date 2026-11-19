@@ -7,6 +7,8 @@ import com.pigmyMobileApp.repository.SchemeMappingRepo;
 import lombok.RequiredArgsConstructor;
 import org.apache.camel.Exchange;
 import org.apache.camel.Header;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -18,6 +20,8 @@ public class AgentLoginService {
     private final AgentRepo agentLoginRepo;
 
     private final SchemeMappingRepo schemeMappingRepo;
+
+    private final Logger LOGGER = LoggerFactory.getLogger(AgentLoginService.class);
 
     public boolean validate(String mobileNumber, String password, Exchange e) {
         AgentBankProjection agentLogin = agentLoginRepo.findByPhone(mobileNumber).orElseThrow(() -> new RuntimeException("Agents mobile number not found"));
@@ -36,6 +40,9 @@ public class AgentLoginService {
 
 
     public void authenticateAgent(@Header("phoneNumber") String phoneNumber, Exchange exchange) {
+
+        LOGGER.info("Authenticating agent with phone number: {}", phoneNumber);
+
         AuthenticateMeProjection authenticateMeProjection = agentLoginRepo.fetchAgentDetails(phoneNumber);
 
         boolean isAgentRevoked = false;

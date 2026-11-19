@@ -26,13 +26,10 @@ public class AddUserService {
     public List<User> fetchCustomers(@Header("agentCode") final Integer agentCode, @Header("bankCode") final String bankCode) {
         if (agentCode != null) {
             List<User> users = userRepo.findUsersByAgentCode_bankCode(agentCode, bankCode);
-            if (users.isEmpty()) {
-                throw new RuntimeException("Agent not found");
-            }
             return users;
 
         } else {
-            return userRepo.findAll();
+            throw new RuntimeException("Agent not found");
         }
 
 
@@ -40,27 +37,21 @@ public class AddUserService {
 
     public List<PeocitUser> fetchCustomersPeocit(@Header("agentCode") final Integer agentCode, @Header("bankCode") final String bankCode) {
         if (agentCode != null) {
-            List<PeocitUser> users = peocitUserRepo.findUsersByAgentCode_bankCode(agentCode, bankCode);
-            if (users.isEmpty()) {
-                throw new RuntimeException("Agent not found");
-            }
-            return users;
+            List<PeocitUser> peousers = peocitUserRepo.findUsersByAgentCode_bankCode(agentCode, bankCode);
+            return peousers;
+        } else
+            throw new RuntimeException("Agent not found");
 
-        } else {
-            return peocitUserRepo.findAll();
-        }
     }
 
     public List<SledgerUser> fetchCustomersSledger(@Header("agentCode") final Integer agentCode, @Header("bankCode") final String bankCode) {
         if (agentCode != null) {
-            List<SledgerUser> users = sledgerUserRepo.findUsersByAgentCode_bankCode(agentCode, bankCode);
-            if (users.isEmpty()) {
-                throw new RuntimeException("Agent not found");
-            }
-            return users;
+            List<SledgerUser> susers = sledgerUserRepo.findUsersByAgentCode_bankCode(agentCode, bankCode);
+            return susers;
 
         } else {
-            return sledgerUserRepo.findAll();
+            throw new RuntimeException("Agent not found");
         }
     }
 }
+

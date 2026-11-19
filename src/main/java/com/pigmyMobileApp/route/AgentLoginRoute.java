@@ -66,7 +66,8 @@ public class AgentLoginRoute extends RouteBuilder {
 
         from("direct:authenticateAgent")
                 .routeId("authenticateAgentRouteId")
-                .bean("agentLoginService", "authenticateAgent");
+                .bean("agentLoginService", "authenticateAgent")
+                .removeProperties(".*");
 
         from("direct:refreshToken")
                 .routeId("refreshTokenRouteId")
@@ -78,6 +79,8 @@ public class AgentLoginRoute extends RouteBuilder {
                     String refreshToken = (String) bodyMap.get("refreshToken");
                     String mobileNumber = (String) bodyMap.get("mobileNumber");
 
+                    LOGGER.info("Agent Refresh Token Request - Refresh Token: {}, Mobile Number: {}", refreshToken, mobileNumber);
+
                     if (refreshTokenService.validateRefreshToken(refreshToken, mobileNumber)) {
                         String newAccessToken = jwtUtil.generateToken(mobileNumber);
                         exchange.getIn().setBody(Map.of(
@@ -87,6 +90,7 @@ public class AgentLoginRoute extends RouteBuilder {
 
                         refreshTokenService.reGenerateRefreshToken(refreshToken, mobileNumber, exchange);
                     }
+                    exchange.removeProperties(".*");
                 });
 
     }

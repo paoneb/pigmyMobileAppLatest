@@ -6,7 +6,6 @@ import com.pigmyMobileApp.model.RefreshToken;
 import com.pigmyMobileApp.repository.RefreshTokenRepo;
 import lombok.RequiredArgsConstructor;
 import org.apache.camel.Exchange;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;

@@ -47,13 +47,13 @@ public class TransactionRoute  extends RouteBuilder {
                 .routeId("fetchCustomersRouteId")
                 .choice()
                 .when(header("bankType").isEqualTo("banksoft"))
-                .log(LoggingLevel.INFO,"fetch User request: ${body}")
+                .log(LoggingLevel.INFO,"fetch banksoft User request: ${body}")
                 .bean("addUserService","fetchCustomers")
                 .when(header("bankType").isEqualTo("peocit"))
-                .log(LoggingLevel.INFO,"fetch User request: ${body}")
+                .log(LoggingLevel.INFO,"fetch peocit User request: ${body}")
                 .bean("addUserService","fetchCustomersPeocit")
                 .when(header("bankType").isEqualTo("sledger"))
-                .log(LoggingLevel.INFO,"fetch User request: ${body}")
+                .log(LoggingLevel.INFO,"fetch sledger User request: ${body}")
                 .bean("addUserService","fetchCustomersSledger");
 
         from("direct:fetchCollections")
