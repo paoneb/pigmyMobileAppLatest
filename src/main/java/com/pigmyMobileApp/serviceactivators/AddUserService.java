@@ -1,9 +1,10 @@
 package com.pigmyMobileApp.serviceactivators;
 
 
-import com.pigmyMobileApp.model.User;
-import com.pigmyMobileApp.model.peocit.PeocitUser;
+import com.pigmyMobileApp.model.BankSoftUserProjection;
+import com.pigmyMobileApp.model.peocit.PeocitUserProjection;
 import com.pigmyMobileApp.model.sledger.SledgerUser;
+import com.pigmyMobileApp.model.sledger.SledgerUserProjection;
 import com.pigmyMobileApp.repository.PeocitUserRepo;
 import com.pigmyMobileApp.repository.SledgerUserRepo;
 import com.pigmyMobileApp.repository.UserRepo;
@@ -23,11 +24,10 @@ public class AddUserService {
     private final SledgerUserRepo sledgerUserRepo;
 
 
-    public List<User> fetchCustomers(@Header("agentCode") final Integer agentCode, @Header("bankCode") final String bankCode) {
+    public List<BankSoftUserProjection> fetchCustomers(@Header("agentCode") final Integer agentCode, @Header("bankCode") final String bankCode) {
         if (agentCode != null) {
-            List<User> users = userRepo.findUsersByAgentCode_bankCode(agentCode, bankCode);
+            List<BankSoftUserProjection> users = userRepo.findUsersByAgentCode_bankCode(agentCode, bankCode);
             return users;
-
         } else {
             throw new RuntimeException("Agent not found");
         }
@@ -35,18 +35,18 @@ public class AddUserService {
 
     }
 
-    public List<PeocitUser> fetchCustomersPeocit(@Header("agentCode") final Integer agentCode, @Header("bankCode") final String bankCode) {
+    public List<PeocitUserProjection> fetchCustomersPeocit(@Header("agentCode") final Integer agentCode, @Header("bankCode") final String bankCode) {
         if (agentCode != null) {
-            List<PeocitUser> peousers = peocitUserRepo.findUsersByAgentCode_bankCode(agentCode, bankCode);
+            List<PeocitUserProjection> peousers = peocitUserRepo.findUsersByAgentCode_bankCode(agentCode, bankCode);
             return peousers;
         } else
             throw new RuntimeException("Agent not found");
 
     }
 
-    public List<SledgerUser> fetchCustomersSledger(@Header("agentCode") final Integer agentCode, @Header("bankCode") final String bankCode) {
+    public List<SledgerUserProjection> fetchCustomersSledger(@Header("agentCode") final Integer agentCode, @Header("bankCode") final String bankCode) {
         if (agentCode != null) {
-            List<SledgerUser> susers = sledgerUserRepo.findUsersByAgentCode_bankCode(agentCode, bankCode);
+            List<SledgerUserProjection> susers = sledgerUserRepo.findUsersByAgentCode_bankCode(agentCode, bankCode);
             return susers;
 
         } else {
