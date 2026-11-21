@@ -32,6 +32,7 @@ public class AgentLoginService {
         e.setProperty("phoneNumber", mobileNumber);
         e.setProperty("limitAmount", agentLogin.getlimitAmount());
         e.setProperty("graceDays", agentLogin.getGraceDays());
+        e.setProperty("offlineTransactionLimit", agentLogin.getOfflineTransactionLimit());
         e.setProperty("lastDepositDate", agentLogin.getLastDepositDate() != null ? agentLogin.getLastDepositDate().toString() : "No deposits yet");
         e.setProperty("schemes", schemeMappingRepo.findByBankCode(agentLogin.getBankCode()));
         e.setProperty("bankType", agentLogin.getbankType());
@@ -52,6 +53,7 @@ public class AgentLoginService {
         } else {
             long limitAmount = authenticateMeProjection.getlimitAmount();
             int graceDays = authenticateMeProjection.getGraceDays();
+            int offlineTransactionLimit = authenticateMeProjection.getOfflineTransactionLimit();
             String lastDepositDate = authenticateMeProjection.getLastDepositDate().toString();
             String refreshToken = authenticateMeProjection.getRefreshToken();
 
@@ -64,6 +66,7 @@ public class AgentLoginService {
             exchange.getIn().setBody(Map.of(
                     "limitAmount", limitAmount,
                     "graceDays", graceDays,
+                    "offlineTransactionLimit", offlineTransactionLimit,
                     "lastDepositDate", lastDepositDate,
                     "isAgentRevoked", isAgentRevoked));
 

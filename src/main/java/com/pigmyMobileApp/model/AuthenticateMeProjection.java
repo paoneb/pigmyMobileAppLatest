@@ -6,6 +6,7 @@ public interface AuthenticateMeProjection {
 
     Long getlimitAmount();
     int getGraceDays();
+    int getOfflineTransactionLimit();
     LocalDate getLastDepositDate();
     String getRefreshToken();
     boolean isAgentRevoked();

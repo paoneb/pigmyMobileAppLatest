@@ -16,7 +16,7 @@ public interface AgentRepo extends JpaRepository<AgentLogin,Long> {
     @Query(value = "SELECT ad.bank_name AS bankName, ad.bank_code AS bankCode, ad.bank_type AS bankType, " +
             "a.agent_code AS agentCode, a.agent_name AS agentName, " +
             "a.password AS password, a.status AS status, " +
-            "a.limit_amount AS limitAmount, a.grace_days AS graceDays, " +
+            "a.limit_amount AS limitAmount, a.offline_transaction_limit AS offlineTransactionLimit, a.grace_days AS graceDays, " +
             "(SELECT CAST(MAX(adp.deposit_date) AS DATE) " +
             " FROM agents_deposit adp " +
             " WHERE adp.bank_code = a.bank_code " +
@@ -29,7 +29,7 @@ public interface AgentRepo extends JpaRepository<AgentLogin,Long> {
 
 
     @Query(value = "SELECT a.limit_amount AS limitAmount, " +
-            "a.grace_days AS graceDays, " +
+            "a.grace_days AS graceDays, a.offline_transaction_limit AS offlineTransactionLimit " +
             "rt.token AS refreshToken, " +
             "aw.deposit_date AS lastDepositDate " +
             "FROM agents a " +

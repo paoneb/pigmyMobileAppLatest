@@ -3,7 +3,6 @@ package com.pigmyMobileApp.serviceactivators;
 
 import com.pigmyMobileApp.model.BankSoftUserProjection;
 import com.pigmyMobileApp.model.peocit.PeocitUserProjection;
-import com.pigmyMobileApp.model.sledger.SledgerUser;
 import com.pigmyMobileApp.model.sledger.SledgerUserProjection;
 import com.pigmyMobileApp.repository.PeocitUserRepo;
 import com.pigmyMobileApp.repository.SledgerUserRepo;
@@ -48,7 +47,6 @@ public class AddUserService {
         if (agentCode != null) {
             List<SledgerUserProjection> susers = sledgerUserRepo.findUsersByAgentCode_bankCode(agentCode, bankCode);
             return susers;
-
         } else {
             throw new RuntimeException("Agent not found");
         }

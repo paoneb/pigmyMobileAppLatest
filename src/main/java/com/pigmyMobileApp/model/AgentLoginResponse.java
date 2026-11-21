@@ -18,6 +18,7 @@ public class AgentLoginResponse {
     private String lastDepositDate;
     private long  limitAmount;
     private int graceDays;
+    private int offlineTransactionLimit;
     private String refreshToken;
     private String accessToken;
     private List<SchemesDTO> schemes;

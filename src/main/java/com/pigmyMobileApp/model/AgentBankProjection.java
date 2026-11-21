@@ -12,6 +12,7 @@ public interface AgentBankProjection {
     String getStatus();
     Long getlimitAmount();
     int getGraceDays();
+    int getOfflineTransactionLimit();
     LocalDate getLastDepositDate();
 
 
