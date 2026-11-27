@@ -23,7 +23,7 @@ public class TransactionRequest {
     private String bankCode;
     private long userId;
     private String customerName;
-    private Integer accountNumber;
+    private String accountNumber;
     private String transactionId;
     private String bankType;
     private long finalAmount;

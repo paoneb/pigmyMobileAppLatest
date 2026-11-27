@@ -56,7 +56,7 @@ public class Transaction {
     private String customerName;
 
     @Column
-    private Integer accountNumber;
+    private String accountNumber;
 
     @Column
     private String transactionId;

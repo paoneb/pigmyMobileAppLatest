@@ -13,8 +13,8 @@ import java.util.List;
 
 public interface SledgerTransactionRepo extends JpaRepository<SledgerTransaction,Long> {
 
-    @Query("SELECT c FROM SledgerTransaction c WHERE c.agentCode = :agentCode AND c.bankCode = :bankCode AND c.collectedDate = :collectedDate AND c.status = 'C'")
-    List<SledgerTransaction> findByAgentCodeAndBankCodeAndCollectedDateAndstatus(Integer agentCode, String bankCode,LocalDate collectedDate);
+    @Query("SELECT c FROM SledgerTransaction c WHERE c.agentCode = :agentCode AND c.bankCode = :bankCode AND c.collectedDate = CURRENT_DATE AND c.status = 'Collected'")
+    List<SledgerTransaction> findByAgentCodeAndBankCodeAndCollectedDateAndstatus(Integer agentCode, String bankCode);
 
 
     @Query(value = "SELECT COALESCE(SUM(t.collected_amount), 0) AS totalCollected, " +

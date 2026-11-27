@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -157,20 +158,55 @@ public class TransactionService {
         }
     }
 
-    public List<FetchTransactionResponse> fetchTransaction(@Header("agentCode") final Integer agCode, @Header("bankCode") final String bankCode, @Header("date") final LocalDate selectedDate, final Exchange e) {
-        List<Transaction> tr = transactionRepo.findByAgentCodeAndBankCodeAndCollectedDateAndstatus(agCode, bankCode, selectedDate);
-        List<FetchTransactionResponse> rs = new ArrayList<>();
+    public List<FetchTransactionResponse> fetchTransaction(@Header("agentCode") final Integer agCode, @Header("bankCode") final String bankCode, @Header("bankType") final String bankType) {
+        if ("banksoft".equalsIgnoreCase(bankType)) {
+            List<Transaction> tr = transactionRepo.findByAgentCodeAndBankCodeAndCollectedDateAndstatus(agCode, bankCode);
+            List<FetchTransactionResponse> rs = new ArrayList<>();
+            if (tr != null && !tr.isEmpty()) {
+                for (Transaction k : tr) {
+                    FetchTransactionResponse response = FetchTransactionResponse.builder()
+                            .trasactionId(k.getId())
+                            .collectedAmount(k.getCollectedAmount())
+                            .customerName(k.getCustomerName())
+                            .accountNumber(k.getAccountNumber()).build();
+                    rs.add(response);
+                }
+            }
 
-        for (Transaction k : tr) {
-            FetchTransactionResponse response = FetchTransactionResponse.builder()
-                    .trasactionId(k.getId())
-                    .collectedAmount((double) k.getCollectedAmount())
-                    .customerName(k.getCustomerName())
-                    .accountNumber(k.getAccountNumber()).build();
-            rs.add(response);
+            return rs;
+        } else if ("peocit".equalsIgnoreCase(bankType)) {
+            List<PeocitTransaction> tr = peocitTransactionRepo.findByAgentCodeAndBankCodeAndCollectedDateAndstatus(agCode, bankCode);
+            List<FetchTransactionResponse> rs = new ArrayList<>();
+            if (tr != null && !tr.isEmpty()) {
+                for (PeocitTransaction k : tr) {
+                    FetchTransactionResponse response = FetchTransactionResponse.builder()
+                            .trasactionId(k.getId())
+                            .collectedAmount(k.getCollectedAmount())
+                            .customerName(k.getCustomerName())
+                            .accountNumber(k.getAccountNumber()).build();
+                    rs.add(response);
+                }
+            }
+
+            return rs;
+        } else if ("sledger".equalsIgnoreCase(bankType)) {
+            List<SledgerTransaction> tr = sledgerTransactionRepo.findByAgentCodeAndBankCodeAndCollectedDateAndstatus(agCode, bankCode);
+            List<FetchTransactionResponse> rs = new ArrayList<>();
+            if (tr != null && !tr.isEmpty()) {
+                for (SledgerTransaction k : tr) {
+                    FetchTransactionResponse response = FetchTransactionResponse.builder()
+                            .trasactionId(k.getId())
+                            .collectedAmount(k.getCollectedAmount())
+                            .customerName(k.getCustomerName())
+                            .accountNumber(k.getAccountNumber()).build();
+                    rs.add(response);
+                }
+            }
+
+            return rs;
+        } else {
+            return Collections.emptyList();
         }
-
-        return rs;
     }
 
     public void fetchCollection(@Header("agentCode") final Integer agCode, @Header("bankCode") final String bankCode, @Header("bankType") final String bankType, final Exchange e) {
@@ -188,8 +224,7 @@ public class TransactionService {
             e.getIn().setBody(Map.of(
                     "totalAmountCollected", transactionSummary.getTotalCollected(),
                     "totalTransactions", transactionSummary.getTransactionCount()));
-        }
-        else if ("sledger".equalsIgnoreCase(bankType)) {
+        } else if ("sledger".equalsIgnoreCase(bankType)) {
             TransactionSummaryProjection transactionSummary = sledgerTransactionRepo.findTransactionSummary(agCode, bankCode);
 
             e.getIn().setBody(Map.of(

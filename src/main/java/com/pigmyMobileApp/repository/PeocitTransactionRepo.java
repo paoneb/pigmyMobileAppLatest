@@ -13,8 +13,8 @@ import java.util.List;
 
 public interface PeocitTransactionRepo extends JpaRepository<PeocitTransaction,Long> {
 
-    @Query("SELECT c FROM PeocitTransaction c WHERE c.agentCode = :agentCode AND c.bankCode = :bankCode AND c.collectedDate = :collectedDate AND c.status = 'C'")
-    List<PeocitTransaction> findByAgentCodeAndBankCodeAndCollectedDateAndstatus(Integer agentCode, String bankCode,LocalDate collectedDate);
+    @Query("SELECT c FROM PeocitTransaction c WHERE c.agentCode = :agentCode AND c.bankCode = :bankCode AND c.collectedDate = CURRENT_DATE AND c.status = 'Collected'")
+    List<PeocitTransaction> findByAgentCodeAndBankCodeAndCollectedDateAndstatus(Integer agentCode, String bankCode);
 
 
     @Query(value = "SELECT COALESCE(SUM(t.collected_amount), 0) AS totalCollected, " +

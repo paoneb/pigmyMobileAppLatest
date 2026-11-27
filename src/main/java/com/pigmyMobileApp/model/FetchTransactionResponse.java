@@ -11,9 +11,9 @@ import java.math.BigDecimal;
 public class FetchTransactionResponse {
 
     private Long trasactionId;
-    private Integer accountNumber;
+    private String accountNumber;
     private String customerName;
-    private Double collectedAmount;
+    private long collectedAmount;
 
 
 }

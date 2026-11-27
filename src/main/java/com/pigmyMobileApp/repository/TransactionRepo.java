@@ -12,8 +12,8 @@ import java.util.List;
 
 public interface TransactionRepo extends JpaRepository<Transaction,Long> {
 
-    @Query("SELECT c FROM Transaction c WHERE c.agentCode = :agentCode AND c.bankCode = :bankCode AND c.collectedDate = :collectedDate AND c.status = 'C'")
-    List<Transaction> findByAgentCodeAndBankCodeAndCollectedDateAndstatus(Integer agentCode, String bankCode,LocalDate collectedDate);
+    @Query("SELECT c FROM Transaction c WHERE c.agentCode = :agentCode AND c.bankCode = :bankCode AND c.collectedDate = CURRENT_DATE  AND c.status = 'Collected'")
+    List<Transaction> findByAgentCodeAndBankCodeAndCollectedDateAndstatus(Integer agentCode, String bankCode);
 
 
     @Query(value = "SELECT COALESCE(SUM(t.collected_amount), 0) AS totalCollected, " +
