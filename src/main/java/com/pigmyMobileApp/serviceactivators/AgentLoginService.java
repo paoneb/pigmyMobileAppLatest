@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Objects;
 
 @Component("agentLoginService")
 @RequiredArgsConstructor
@@ -40,7 +41,7 @@ public class AgentLoginService {
     }
 
 
-    public void authenticateAgent(@Header("phoneNumber") String phoneNumber, Exchange exchange) {
+    public void authenticateAgent(@Header("phoneNumber") String phoneNumber, @Header("refresh_token") String refreshToken, Exchange exchange) {
 
         LOGGER.info("Authenticating agent with phone number: {}", phoneNumber);
 
@@ -55,9 +56,9 @@ public class AgentLoginService {
             int graceDays = authenticateMeProjection.getGraceDays();
             int offlineTransactionLimit = authenticateMeProjection.getOfflineTransactionLimit();
             String lastDepositDate = authenticateMeProjection.getLastDepositDate().toString();
-            String refreshToken = authenticateMeProjection.getRefreshToken();
+            String refreshTokenFromDB = authenticateMeProjection.getRefreshToken();
 
-            if (refreshToken == null || refreshToken.isEmpty()) {
+            if (refreshToken == null || refreshToken.isEmpty() || !Objects.equals(refreshTokenFromDB, refreshToken)) {
                 isAgentRevoked = true;
             } else {
                 isAgentRevoked = false;

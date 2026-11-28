@@ -165,7 +165,7 @@ public class TransactionService {
             if (tr != null && !tr.isEmpty()) {
                 for (Transaction k : tr) {
                     FetchTransactionResponse response = FetchTransactionResponse.builder()
-                            .trasactionId(k.getId())
+                            .trasactionId(k.getTransactionId())
                             .collectedAmount(k.getCollectedAmount())
                             .customerName(k.getCustomerName())
                             .accountNumber(k.getAccountNumber()).build();
@@ -180,7 +180,7 @@ public class TransactionService {
             if (tr != null && !tr.isEmpty()) {
                 for (PeocitTransaction k : tr) {
                     FetchTransactionResponse response = FetchTransactionResponse.builder()
-                            .trasactionId(k.getId())
+                            .trasactionId(k.getTransactionId())
                             .collectedAmount(k.getCollectedAmount())
                             .customerName(k.getCustomerName())
                             .accountNumber(k.getAccountNumber()).build();
@@ -195,7 +195,7 @@ public class TransactionService {
             if (tr != null && !tr.isEmpty()) {
                 for (SledgerTransaction k : tr) {
                     FetchTransactionResponse response = FetchTransactionResponse.builder()
-                            .trasactionId(k.getId())
+                            .trasactionId(k.getTransactionId())
                             .collectedAmount(k.getCollectedAmount())
                             .customerName(k.getCustomerName())
                             .accountNumber(k.getAccountNumber()).build();

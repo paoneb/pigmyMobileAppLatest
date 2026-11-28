@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Builder
 public class FetchTransactionResponse {
 
-    private Long trasactionId;
+    private String trasactionId;
     private String accountNumber;
     private String customerName;
     private long collectedAmount;

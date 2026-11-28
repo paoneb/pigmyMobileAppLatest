@@ -47,6 +47,7 @@ public class PigmyMobileAppRoute extends RouteBuilder {
 
                 .get("/authenticate")
                 .param().name("phoneNumber").type(RestParamType.query).dataType("String").required(true).endParam()
+                .param().name("refresh_token").type(RestParamType.header).dataType("String").required(true).endParam()
                 .type(AgentLoginRequest.class)
                 .to("direct:authenticateAgent");
 

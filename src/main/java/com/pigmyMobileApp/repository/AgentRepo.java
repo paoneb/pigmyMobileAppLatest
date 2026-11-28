@@ -29,7 +29,7 @@ public interface AgentRepo extends JpaRepository<AgentLogin,Long> {
 
 
     @Query(value = "SELECT a.limit_amount AS limitAmount, " +
-            "a.grace_days AS graceDays, a.offline_transaction_limit AS offlineTransactionLimit " +
+            "a.grace_days AS graceDays, a.offline_transaction_limit AS offlineTransactionLimit, " +
             "rt.token AS refreshToken, " +
             "aw.deposit_date AS lastDepositDate " +
             "FROM agents a " +
